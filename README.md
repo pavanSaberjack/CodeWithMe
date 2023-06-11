@@ -22,10 +22,11 @@ To use the Xcode Source Editor extension, follow these steps:
 
 1. Clone the repository to your local machine.
 2. Open the project in Xcode.
-3. Build the project.
-4. Enable the Xcode Source Editor extension in Xcode Preferences.
-5. Restart Xcode for the changes to take effect.
-6. Open a code file in Xcode and start using the extension.
+3. Add your personal OpenAI key to make it work in "OpenAPIManager" class
+4. Build the project.
+5. Enable the Xcode Source Editor extension in Xcode Preferences.
+6. Restart Xcode for the changes to take effect.
+7. Open a code file in Xcode and start using the extension.
 
 ## Usage
 
