@@ -79,7 +79,7 @@ class ImproveMyCode: NSObject, XCSourceEditorCommand {
                     DispatchQueue.main.async { [weak self] in
                         let output = (self?.indentation(line: source.lines[selection.start.line] as! String) ?? "")
                         let finalText = output + "\(message)"
-                        
+
                         print("Final text is --\n " + finalText)
                         source.lines.insert(finalText, at: selection.end.line + 1)
                         completionHandler(nil)
@@ -91,9 +91,9 @@ class ImproveMyCode: NSObject, XCSourceEditorCommand {
                     return
                 }
             }
+        } else {
+            completionHandler(CustomError.invalidSelection)
         }
-        
-        completionHandler(CustomError.invalidSelection)
     }
     
     private func writeUnitTests(selectedText: String,
@@ -122,9 +122,9 @@ class ImproveMyCode: NSObject, XCSourceEditorCommand {
                     return
                 }
             }
-        }
-        
-        completionHandler(CustomError.invalidSelection)
+        } else {
+            completionHandler(CustomError.invalidSelection)
+        }                
     }
     
     private func indentation(line: String) -> String {
