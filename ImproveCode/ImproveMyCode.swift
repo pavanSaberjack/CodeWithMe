@@ -8,52 +8,22 @@
 import Foundation
 import XcodeKit
 
-enum CommandType: String {
-    case solidPrinciple = "SOLIDprinciple"
-    case writeUnitTests = "WriteUnitTests"
-    case unknown = "Unknown"
-}
-
 class ImproveMyCode: NSObject, XCSourceEditorCommand {
     
     func perform(with invocation: XCSourceEditorCommandInvocation, completionHandler: @escaping (Error?) -> Void ) -> Void {
         // Implement your command here, invoking the completion handler when done. Pass it nil on success, and an NSError on failure.
+        setUp()
         
         print("ImproveMyCode: \(invocation.description)")
         print("ImproveMyCode: \(invocation.commandIdentifier)")
 
-        guard let selectedText = TextSelection.getSelectedText(source: invocation.buffer) else {
-            completionHandler(CustomError.invalidSelection)
+        guard let commandDetail = CommandDetails.getDetails(from: invocation) else {
+            completionHandler(CustomError.networkError)
             return
         }
         
-        
-        let source = invocation.buffer
-        guard let selection = source.selections.firstObject as? XCSourceTextRange, selection.start.line < source.lines.count else {
-            completionHandler(CustomError.invalidSelection)
-            return
-        }
-            
-        
-        switch invocation.commandIdentifier {
-        case CommandType.solidPrinciple.rawValue:
-            checkIfQualifiesSOlidPrinciple(selectedText:selectedText, 
-                                           selection: selection,
-                                           source: invocation.buffer,
-                                           completionHandler: completionHandler)
-            return
-            
-        case CommandType.writeUnitTests.rawValue:
-            writeUnitTests(selectedText:selectedText, 
-                           selection: selection,
-                           source: invocation.buffer,
-                           completionHandler: completionHandler)
-            return
-            
-        default:
-            completionHandler(CustomError.invalidSelection)
-            return
-        }
+        runCommand(command: commandDetail,
+                   completionHandler: completionHandler)
     }
     
     private func checkIfQualifiesSOlidPrinciple(selectedText: String,
@@ -108,6 +78,14 @@ class ImproveMyCode: NSObject, XCSourceEditorCommand {
     }
 }
 
+/// Initialiasation
+extension ImproveMyCode {
+    private func setUp() {
+        CommandManager.shared.add(commandService: SolidPrinciple(), forType: .solidPrinciple)
+        CommandManager.shared.add(commandService: WriteUnitTests(), forType: .writeUnitTests)
+    }
+}
+
 extension ImproveMyCode {
     private func indentation(line: String) -> String {
         if let nonWhitespace = line.rangeOfCharacter(from: CharacterSet.whitespaces.inverted) {
@@ -119,7 +97,31 @@ extension ImproveMyCode {
 }
 
 extension ImproveMyCode {
-    
+    private func runCommand(command: CommandDetails,
+                            completionHandler: @escaping (Error?) -> Void) {
+
+        let type = CommandType.getCommand(forIdentifier: command.identifier)
+
+        CommandManager.shared.getResult(forCommandType: type,
+                                        selectedText: command.selectedText) { [weak self] result in
+            switch result {
+            case .success(let message):
+                DispatchQueue.main.async { [weak self] in
+                    let output = (self?.indentation(line: command.source.lines[command.selection.start.line] as! String) ?? "")
+                    let finalText = output + "\(message)"
+
+                    print("Final text is --\n " + finalText)
+                    command.source.lines.insert(finalText, at: command.selection.end.line + 1)
+                    completionHandler(nil)
+                    return
+                }
+                
+            case .failure(let error):
+                completionHandler(error)
+                return
+            }
+        }
+    }
 }
 
 
