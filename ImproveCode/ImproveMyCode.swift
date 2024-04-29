@@ -60,28 +60,24 @@ class ImproveMyCode: NSObject, XCSourceEditorCommand {
                                                 selection: XCSourceTextRange,
                                                 source: XCSourceTextBuffer,
                                                 completionHandler: @escaping (Error?) -> Void) {
-        if let selection = source.selections.firstObject as? XCSourceTextRange, selection.start.line < source.lines.count {
-            let solidPrincipleService = SolidPrinciple()
-            solidPrincipleService.getResultForTheCommand(selectedText: selectedText) { [weak self] result in
-                switch result {
-                case .success(let message):
-                    DispatchQueue.main.async { [weak self] in
-                        let output = (self?.indentation(line: source.lines[selection.start.line] as! String) ?? "")
-                        let finalText = output + "\(message)"
+        let solidPrincipleService = SolidPrinciple()
+        solidPrincipleService.getResultForTheCommand(selectedText: selectedText) { [weak self] result in
+            switch result {
+            case .success(let message):
+                DispatchQueue.main.async { [weak self] in
+                    let output = (self?.indentation(line: source.lines[selection.start.line] as! String) ?? "")
+                    let finalText = output + "\(message)"
 
-                        print("Final text is --\n " + finalText)
-                        source.lines.insert(finalText, at: selection.end.line + 1)
-                        completionHandler(nil)
-                        return
-                    }
-                    
-                case .failure(let error):
-                    completionHandler(error)
+                    print("Final text is --\n " + finalText)
+                    source.lines.insert(finalText, at: selection.end.line + 1)
+                    completionHandler(nil)
                     return
                 }
+                
+            case .failure(let error):
+                completionHandler(error)
+                return
             }
-        } else {
-            completionHandler(CustomError.invalidSelection)
         }
     }
     
@@ -90,31 +86,25 @@ class ImproveMyCode: NSObject, XCSourceEditorCommand {
                                 source: XCSourceTextBuffer,
                                 completionHandler: @escaping (Error?) -> Void) {
         
-        if let selection = source.selections.firstObject as? XCSourceTextRange, selection.start.line < source.lines.count {
-            
-            let unitTestsService = WriteUnitTests()
-            
-            unitTestsService.getResultForTheCommand(selectedText: selectedText) { [weak self] result in
-                switch result {
-                case .success(let message):
-                    DispatchQueue.main.async { [weak self] in
-                        let output = (self?.indentation(line: source.lines[selection.start.line] as! String) ?? "")
-                        let finalText = output + "\(message)"
-                        
-                        print("Final text is --\n " + finalText)
-                        source.lines.insert(finalText, at: selection.end.line + 1)
-                        completionHandler(nil)
-                        return
-                    }
+        let unitTestsService = WriteUnitTests()
+        unitTestsService.getResultForTheCommand(selectedText: selectedText) { [weak self] result in
+            switch result {
+            case .success(let message):
+                DispatchQueue.main.async { [weak self] in
+                    let output = (self?.indentation(line: source.lines[selection.start.line] as! String) ?? "")
+                    let finalText = output + "\(message)"
                     
-                case .failure(let error):
-                    completionHandler(error)
+                    print("Final text is --\n " + finalText)
+                    source.lines.insert(finalText, at: selection.end.line + 1)
+                    completionHandler(nil)
                     return
                 }
+                
+            case .failure(let error):
+                completionHandler(error)
+                return
             }
-        } else {
-            completionHandler(CustomError.invalidSelection)
-        }                
+        }               
     }
     
     private func indentation(line: String) -> String {
