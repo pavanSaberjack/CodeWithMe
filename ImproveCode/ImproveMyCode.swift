@@ -7,15 +7,12 @@
 
 import Foundation
 import XcodeKit
-import OpenAISwift
 
-enum CustomError: Error {
-    case invalidSelection
-    case networkError
-    case databaseError
-    // Add more cases as needed
+enum CommandType: String {
+    case solidPrinciple = "SOLIDprinciple"
+    case writeUnitTests = "WriteUnitTests"
+    case unknown = "Unknown"
 }
-
 
 class ImproveMyCode: NSObject, XCSourceEditorCommand {
     
@@ -24,19 +21,33 @@ class ImproveMyCode: NSObject, XCSourceEditorCommand {
         
         print("ImproveMyCode: \(invocation.description)")
         print("ImproveMyCode: \(invocation.commandIdentifier)")
-        
-        guard let selectedText = getSelectedText(source: invocation.buffer) else {
+
+        guard let selectedText = TextSelection.getSelectedText(source: invocation.buffer) else {
             completionHandler(CustomError.invalidSelection)
             return
         }
         
+        
+        let source = invocation.buffer
+        guard let selection = source.selections.firstObject as? XCSourceTextRange, selection.start.line < source.lines.count else {
+            completionHandler(CustomError.invalidSelection)
+            return
+        }
+            
+        
         switch invocation.commandIdentifier {
-        case "SOLIDprinciple":
-            checkIfQualifiesSOlidPrinciple(selectedText:selectedText, source: invocation.buffer, completionHandler: completionHandler)
+        case CommandType.solidPrinciple.rawValue:
+            checkIfQualifiesSOlidPrinciple(selectedText:selectedText, 
+                                           selection: selection,
+                                           source: invocation.buffer,
+                                           completionHandler: completionHandler)
             return
             
-        case "WriteUnitTests":
-            writeUnitTests(selectedText:selectedText, source: invocation.buffer, completionHandler: completionHandler)
+        case CommandType.writeUnitTests.rawValue:
+            writeUnitTests(selectedText:selectedText, 
+                           selection: selection,
+                           source: invocation.buffer,
+                           completionHandler: completionHandler)
             return
             
         default:
@@ -45,30 +56,8 @@ class ImproveMyCode: NSObject, XCSourceEditorCommand {
         }
     }
     
-    private func getSelectedText(source: XCSourceTextBuffer) -> String? {
-        guard let selection = source.selections.firstObject as? XCSourceTextRange else {
-            // Send proper error
-            return nil
-        }
-        
-        print(selection.start.line, selection.start.column)
-        print(selection.end.line, selection.end.column)
-        
-        if let selection = source.selections.firstObject as? XCSourceTextRange, selection.start.line < source.lines.count {
-            var selectionString = ""
-            for lineIndex in selection.start.line...selection.end.line {
-                let selectedLine = source.lines[lineIndex] as? String
-                if let line = selectedLine {
-                    selectionString.append("\n\(line)")
-                }
-            }
-            return selectionString
-        }
-        
-        return nil
-    }
-    
     private func checkIfQualifiesSOlidPrinciple(selectedText: String,
+                                                selection: XCSourceTextRange,
                                                 source: XCSourceTextBuffer,
                                                 completionHandler: @escaping (Error?) -> Void) {
         if let selection = source.selections.firstObject as? XCSourceTextRange, selection.start.line < source.lines.count {
@@ -97,6 +86,7 @@ class ImproveMyCode: NSObject, XCSourceEditorCommand {
     }
     
     private func writeUnitTests(selectedText: String,
+                                selection: XCSourceTextRange,
                                 source: XCSourceTextBuffer,
                                 completionHandler: @escaping (Error?) -> Void) {
         
@@ -136,3 +126,5 @@ class ImproveMyCode: NSObject, XCSourceEditorCommand {
     }
     
 }
+
+
