@@ -47,7 +47,7 @@ extension ImproveMyCode {
             switch result {
             case .success(let message):
                 DispatchQueue.main.async { [weak self] in
-                    let output = (self?.indentation(line: command.source.lines[command.selection.start.line] as! String) ?? "")
+                    let output = (TextSelection.indentation(line: command.source.lines[command.selection.start.line] as! String))
                     let finalText = output + "\(message)"
 
                     print("Final text is --\n " + finalText)
@@ -60,14 +60,6 @@ extension ImproveMyCode {
                 completionHandler(error)
                 return
             }
-        }
-    }
-    
-    private func indentation(line: String) -> String {
-        if let nonWhitespace = line.rangeOfCharacter(from: CharacterSet.whitespaces.inverted) {
-            return String(line.prefix(upTo: nonWhitespace.lowerBound))
-        } else {
-            return ""
         }
     }
 }

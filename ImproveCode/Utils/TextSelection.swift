@@ -41,4 +41,12 @@ class TextSelection {
             return nil
         }
     }
+    
+    class func indentation(line: String) -> String {
+        if let nonWhitespace = line.rangeOfCharacter(from: CharacterSet.whitespaces.inverted) {
+            return String(line.prefix(upTo: nonWhitespace.lowerBound))
+        } else {
+            return ""
+        }
+    }
 }
