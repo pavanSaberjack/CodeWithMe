@@ -104,9 +104,11 @@ class ImproveMyCode: NSObject, XCSourceEditorCommand {
                 completionHandler(error)
                 return
             }
-        }               
+        }
     }
-    
+}
+
+extension ImproveMyCode {
     private func indentation(line: String) -> String {
         if let nonWhitespace = line.rangeOfCharacter(from: CharacterSet.whitespaces.inverted) {
             return String(line.prefix(upTo: nonWhitespace.lowerBound))
@@ -114,6 +116,9 @@ class ImproveMyCode: NSObject, XCSourceEditorCommand {
             return ""
         }
     }
+}
+
+extension ImproveMyCode {
     
 }
 

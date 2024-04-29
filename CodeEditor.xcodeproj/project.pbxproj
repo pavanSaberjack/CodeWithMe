@@ -148,7 +148,7 @@
 				585A912C2BDFA6FB005EFDC9 /* Utils */,
 				580CBF242A2CDA80000C66C6 /* SourceEditorExtension.swift */,
 				580CBF262A2CDA80000C66C6 /* ImproveMyCode.swift */,
-				582147E82A335E9700DD7266 /* Options */,
+				582147E82A335E9700DD7266 /* Commands */,
 				580CBF382A2D9268000C66C6 /* GenerativeAI */,
 				580CBF282A2CDA80000C66C6 /* Info.plist */,
 				580CBF292A2CDA80000C66C6 /* ImproveCode.entitlements */,
@@ -164,14 +164,14 @@
 			path = GenerativeAI;
 			sourceTree = "<group>";
 		};
-		582147E82A335E9700DD7266 /* Options */ = {
+		582147E82A335E9700DD7266 /* Commands */ = {
 			isa = PBXGroup;
 			children = (
 				582147E92A335EBD00DD7266 /* SolidPrinciples.swift */,
 				582147EB2A34309800DD7266 /* WriteUnitTests.swift */,
 				582147ED2A34CCF500DD7266 /* CommandService.swift */,
 			);
-			path = Options;
+			path = Commands;
 			sourceTree = "<group>";
 		};
 		585A912C2BDFA6FB005EFDC9 /* Utils */ = {
