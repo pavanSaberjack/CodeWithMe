@@ -171,8 +171,7 @@
 		582147E82A335E9700DD7266 /* Commands */ = {
 			isa = PBXGroup;
 			children = (
-				582147E92A335EBD00DD7266 /* SolidPrinciples.swift */,
-				582147EB2A34309800DD7266 /* WriteUnitTests.swift */,
+				585A91342BDFB84F005EFDC9 /* CustomCommands */,
 				582147ED2A34CCF500DD7266 /* CommandService.swift */,
 				585A91302BDFAAFC005EFDC9 /* CommandManager.swift */,
 				585A91322BDFB4CB005EFDC9 /* CommandDetails.swift */,
@@ -186,6 +185,15 @@
 				585A912D2BDFA712005EFDC9 /* TextSelection.swift */,
 			);
 			path = Utils;
+			sourceTree = "<group>";
+		};
+		585A91342BDFB84F005EFDC9 /* CustomCommands */ = {
+			isa = PBXGroup;
+			children = (
+				582147E92A335EBD00DD7266 /* SolidPrinciples.swift */,
+				582147EB2A34309800DD7266 /* WriteUnitTests.swift */,
+			);
+			path = CustomCommands;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

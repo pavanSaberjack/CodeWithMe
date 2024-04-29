@@ -26,6 +26,7 @@ class SolidPrinciple: CustomCommandService {
         
         OpenAPIManager.shared.setup()
         OpenAPIManager.shared.getResponse(messages: [prompt]) { result in
+   
             switch result {
             case .success(let message):
                 completionHandler(.success(message))

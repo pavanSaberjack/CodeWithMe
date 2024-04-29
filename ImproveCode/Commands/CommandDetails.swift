@@ -44,8 +44,8 @@ struct CommandDetails {
         }
         
         return CommandDetails(identifier: invocation.commandIdentifier,
-                                    selectedText: selectedText,
-                                    selection: selection,
-                                    source: invocation.buffer)
+                              selectedText: selectedText,
+                              selection: selection,
+                              source: invocation.buffer)
     }
 }
