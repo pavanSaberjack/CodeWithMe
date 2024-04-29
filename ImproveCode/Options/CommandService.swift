@@ -7,6 +7,13 @@
 
 import Foundation
 
+enum CustomError: Error {
+    case invalidSelection
+    case networkError
+    case databaseError
+    // Add more cases as needed
+}
+
 protocol CustomCommandService {
     var rules: String { get }
     
