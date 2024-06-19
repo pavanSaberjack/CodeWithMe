@@ -21,6 +21,9 @@ class ViewController: NSViewController {
         }
     }
 
+    func addTwoNumbers(a: Int, b: Int) -> Int {
+        return a+b
+    }
 
 }
 

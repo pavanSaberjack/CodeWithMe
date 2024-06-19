@@ -22,11 +22,8 @@ class SolidPrinciple: CustomCommandService {
     
     func getResultForTheCommand(selectedText: String, completionHandler: @escaping (Result<String, Error>) -> Void) {
         
-        let prompt: ChatMessage = ChatMessage(role: .assistant, content: "\(rules) \n\n \(selectedText)")
-        
-        OpenAPIManager.shared.setup()
-        OpenAPIManager.shared.getResponse(messages: [prompt]) { result in
-   
+        CodeGenManager().getResponse(for: selectedText,
+                                     with: rules) { result in
             switch result {
             case .success(let message):
                 completionHandler(.success(message))

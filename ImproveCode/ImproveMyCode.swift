@@ -29,6 +29,7 @@ class ImproveMyCode: NSObject, XCSourceEditorCommand {
 
 /// Initialiasation
 extension ImproveMyCode {
+    /// Initial setup and adding commands
     private func setUp() {
         CommandManager.shared.add(commandService: SolidPrinciple(), forType: .solidPrinciple)
         CommandManager.shared.add(commandService: WriteUnitTests(), forType: .writeUnitTests)
@@ -63,3 +64,5 @@ extension ImproveMyCode {
         }
     }
 }
+
+//{"messages":" func addTwoNumbers(a: Int, b: Int) -> Int { return a+b }"}
