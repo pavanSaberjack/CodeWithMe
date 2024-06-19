@@ -10,10 +10,9 @@ import Foundation
 class CodeGenManager: CodeGenService {
     static let shared = CodeGenManager()
     
-    private(set) var codeGenService: CodeGenService?
+    var codeGenService: CodeGenService?
     
-    
-    func getResponse(for prompt: String, 
+    func getResponse(for prompt: String,
                      with rules: String,
                      completion: @escaping (Result<String, any Error>) -> Void) {
         codeGenService?.getResponse(for: prompt, with: rules, completion: completion)

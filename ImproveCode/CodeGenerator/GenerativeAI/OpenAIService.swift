@@ -11,9 +11,7 @@ import OpenAISwift
 
 final class OpenAIService: CodeGenService {
     private var client: OpenAISwift?
-    
-    private init() {}
-    
+        
     func setup() {
         // Don't commit API key
         client = OpenAISwift(authToken: "<Your API Key here>")

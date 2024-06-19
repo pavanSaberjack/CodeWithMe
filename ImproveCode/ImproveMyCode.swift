@@ -33,6 +33,8 @@ extension ImproveMyCode {
     private func setUp() {
         CommandManager.shared.add(commandService: SolidPrinciple(), forType: .solidPrinciple)
         CommandManager.shared.add(commandService: WriteUnitTests(), forType: .writeUnitTests)
+        
+        CodeGenManager.shared.codeGenService = OpenAIService()
     }
 }
 
