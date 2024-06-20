@@ -12,9 +12,9 @@
 					<key>XCSourceEditorCommandClassName</key>
 					<string>$(PRODUCT_MODULE_NAME).ImproveMyCode</string>
 					<key>XCSourceEditorCommandIdentifier</key>
-					<string>SOLIDprinciple</string>
+					<string>GenerateCode</string>
 					<key>XCSourceEditorCommandName</key>
-					<string>SOLID principle</string>
+					<string>Generate Code</string>
 				</dict>
 				<dict>
 					<key>XCSourceEditorCommandClassName</key>

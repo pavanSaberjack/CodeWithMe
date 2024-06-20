@@ -9,14 +9,14 @@ import Foundation
 import XcodeKit
 
 enum CommandType: String {
-    case solidPrinciple = "SOLIDprinciple"
+    case generateCode = "GenerateCode"
     case writeUnitTests = "WriteUnitTests"
     case unknown = "Unknown"
     
     static func getCommand(forIdentifier identifier: String) -> CommandType {
         switch identifier {
-        case CommandType.solidPrinciple.rawValue:
-            return .solidPrinciple
+        case CommandType.generateCode.rawValue:
+            return .generateCode
             
         case CommandType.writeUnitTests.rawValue:
             return .writeUnitTests

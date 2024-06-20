@@ -22,8 +22,6 @@ class WriteUnitTests: CustomCommandService {
     
     func getResultForTheCommand(selectedText: String, completionHandler: @escaping (Result<String, Error>) -> Void) {
         
-        let prompt: ChatMessage = ChatMessage(role: .assistant, content: "\(rules) \n\n \(selectedText)")
-        
         CodeGenManager.shared.getResponse(for: selectedText,
                                           with: rules) { result in
             switch result {

@@ -31,10 +31,10 @@ class ImproveMyCode: NSObject, XCSourceEditorCommand {
 extension ImproveMyCode {
     /// Initial setup and adding commands
     private func setUp() {
-        CommandManager.shared.add(commandService: SolidPrinciple(), forType: .solidPrinciple)
+        CommandManager.shared.add(commandService: GenerateCode(), forType: .generateCode)
         CommandManager.shared.add(commandService: WriteUnitTests(), forType: .writeUnitTests)
         
-        CodeGenManager.shared.codeGenService = OpenAIService()
+        CodeGenManager.shared.codeGenService = CodeWithMeService()
     }
 }
 
@@ -46,10 +46,10 @@ extension ImproveMyCode {
         let type = CommandType.getCommand(forIdentifier: command.identifier)
 
         CommandManager.shared.getResult(forCommandType: type,
-                                        selectedText: command.selectedText) { [weak self] result in
+                                        selectedText: command.selectedText) { result in
             switch result {
             case .success(let message):
-                DispatchQueue.main.async { [weak self] in
+                DispatchQueue.main.async {
                     let output = (TextSelection.indentation(line: command.source.lines[command.selection.start.line] as! String))
                     let finalText = output + "\(message)"
 

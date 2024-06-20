@@ -1,5 +1,5 @@
 //
-//  SolidPrinciples.swift
+//  GenerateCode.swift
 //  ImproveCode
 //
 //  Created by Pavan Itagi on 09/06/23.
@@ -9,7 +9,7 @@ import Foundation
 import XcodeKit
 import OpenAISwift
 
-class SolidPrinciple: CustomCommandService {
+class GenerateCode: CustomCommandService {
     var rules: String = """
             ACT as a pair programmer who is helping me in improving my code. Follow the rules.
         
